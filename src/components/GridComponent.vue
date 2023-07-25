@@ -31,7 +31,7 @@
       :title="$t('rules')" 
       :content="$t('rules_content')"
     />
-    <p class="chance-propa" v-if="probaProps">Chance of Propagation =      <img :src="generateLinkImgChance()" /> %
+    <p class="chance-propa" v-if="probaProps">Chance of Propagation = <img class="chance-propa-img" :src="generateLinkImgChance()" /> <b>%</b>
     </p>
     <h3 v-if="isBurningGrid" class="burning-grid-text">
       {{ $t('isBurningGrid') }}
@@ -240,6 +240,11 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.chance-propa-img {
+  width: 40px;
+  height: 40px;
 }
 
 .burning-grid-text {
