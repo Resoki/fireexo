@@ -32,7 +32,7 @@ export default {
   position: relative;
   background-color: #f0f0f0;
   border: 3px solid orange;
-  border-radius: 5px;
+  border-radius: 40px;
   padding: 10px;
   margin-top: 10px !important;
   width: 225px;
