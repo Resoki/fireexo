@@ -31,6 +31,7 @@ export default {
   justify-content: center;
   width: 60px;
   height: 60px;
+  border-radius: 12px;
 }
 
 .is-burning {

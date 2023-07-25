@@ -35,7 +35,7 @@
     <h3 v-if="isBurningGrid" class="burning-grid-text">
       {{ $t('isBurningGrid') }}
     </h3>
-    <div class="grid">
+    <div :class="getCssClassGrid()">
       <div v-for="(row, rowIndex) in grid" :key="rowIndex">
         <CaseComponent 
           v-for="(cell, colIndex) in row" 
@@ -89,6 +89,10 @@ export default {
     this.generateInitialState();
   }, 
   methods: {
+    getCssClassGrid(){
+      if(this.isBurningGrid) return 'grid is-burning-grid'
+      return 'grid';
+    },
     switchValueSelect(proba) {
       if(this.message.length) {
         this.message = '';
@@ -212,7 +216,7 @@ export default {
   margin: 2%;
   margin-top: 4px;
   border: 2px solid black;
-  border-radius: 8px;
+  border-radius: 10px;
   background-color: #42b983 !important;
 }
 
@@ -222,24 +226,36 @@ export default {
   color: red; /* Couleur initiale du texte */
 }
 
+.is-burning-grid {
+  border: 5px solid red;
+  animation: changeColorBorder 1s infinite alternate;
+}
+
+@keyframes changeColorBorder {
+  0% { border-color: red; } /* Étape de départ de l'animation */
+  50% { border-color: orange; } /* Couleur à mi-chemin de l'animation */
+  100% { border-color: red; } /* Étape finale de l'animation, revenir à la couleur initiale */
+}
+
 @keyframes changeColor {
   0% { color: red; } /* Étape de départ de l'animation */
   50% { color: orange; } /* Couleur à mi-chemin de l'animation */
   100% { color: red; } /* Étape finale de l'animation, revenir à la couleur initiale */
 }
-  /* Add a rule for smaller screens (up to 768px width) */
-  @media screen and (max-width: 768px) {
-    .grid {
-      grid-template-columns: repeat(auto-fit, minmax(30px, 1fr));
-    }
-  }
 
-  /* Add a rule for even smaller screens (up to 480px width) */
-  @media screen and (max-width: 480px) {
-    .grid {
-      grid-template-columns: repeat(auto-fit, minmax(30px, 1fr));
-    }
+/* Add a rule for smaller screens (up to 768px width) */
+@media screen and (max-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(auto-fit, minmax(30px, 1fr));
   }
+}
+
+/* Add a rule for even smaller screens (up to 480px width) */
+@media screen and (max-width: 480px) {
+  .grid {
+    grid-template-columns: repeat(auto-fit, minmax(30px, 1fr));
+  }
+}
 
 .main {
   display: flex;
