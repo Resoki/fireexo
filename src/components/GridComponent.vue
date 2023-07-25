@@ -196,19 +196,20 @@ export default {
   background-color: #42b983 !important;
 }
 
-/* Ajoutez une règle pour rendre la grille responsive sur les écrans plus petits */
+/* Ajoutez une règle pour rendre la grille responsive sur les écrans jusqu'à 768px de largeur */
 @media screen and (max-width: 768px) {
   .grid {
     grid-template-columns: repeat(6, 1fr); /* Pour les écrans jusqu'à 768px de largeur, utilisez 6 colonnes */
   }
 }
 
-/* Ajoutez une règle pour rendre la grille encore plus petite pour les écrans mobiles */
+/* Ajoutez une règle pour les écrans plus petits (jusqu'à 480px de largeur) */
 @media screen and (max-width: 480px) {
   .grid {
-    grid-template-columns: repeat(4, 1fr); /* Pour les écrans jusqu'à 480px de largeur, utilisez 4 colonnes */
+    grid-template-columns: repeat(4, 1fr); /* Pour les écrans jusqu'à 480px de largeur, utilisez 3 colonnes */
   }
 }
+
 
 
 .main {
