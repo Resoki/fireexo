@@ -8,14 +8,16 @@
     :trad="tradChooseForce" 
     @update:probaProps="switchValueSelect" 
   />
-    <button v-if="!isBurningGrid" @click="firePropagation()">
-      <img class="img-button" src="../../public/images/fireicon.png"/>
-      {{ $t('launch') }}
-    </button>
+  <div class="btns">
     <button v-if="!isBurningGrid" class="btnrules" @click="seeRules">
       <img class="img-button" src="../../public/images/book.png"/>
       {{ $t('rules') }}
     </button>
+    <button v-if="!isBurningGrid" @click="firePropagation()">
+      <img class="img-button" src="../../public/images/fireicon.png"/>
+      {{ $t('launch') }}
+    </button>
+  </div>
     <BoardComponent 
        v-if="(isBurningGrid || isFinish) && isDisplayedBoard"
       :options="optionsBoard"
@@ -30,7 +32,9 @@
       :content="$t('rules_content')"
     />
     <p v-if="probaProps">Chance of Propagation = <b>{{probabilityOfPropagation*100}}%</b></p>
-    <h3 v-if="isBurningGrid">{{$t('isBurningGrid')}}</h3>
+    <h3 v-if="isBurningGrid" class="burning-grid-text">
+      {{ $t('isBurningGrid') }}
+    </h3>
     <div class="grid">
       <div v-for="(row, rowIndex) in grid" :key="rowIndex">
         <CaseComponent 
@@ -201,17 +205,28 @@ export default {
 }
 </script>
 <style scoped>
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(30px, 1fr));
-    gap: 4px;
-    margin: 2%;
-    margin-top: 4px;
-    border: 2px solid black;
-    border-radius: 8px;
-    background-color: #42b983 !important;
-  }
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(30px, 1fr));
+  gap: 4px;
+  margin: 2%;
+  margin-top: 4px;
+  border: 2px solid black;
+  border-radius: 8px;
+  background-color: #42b983 !important;
+}
 
+.burning-grid-text {
+  font-size: 28px;
+  animation: changeColor 1s infinite alternate; /* Utilisation de l'animation "changeColor" avec un effet infini et en alternance */
+  color: red; /* Couleur initiale du texte */
+}
+
+@keyframes changeColor {
+  0% { color: red; } /* Étape de départ de l'animation */
+  50% { color: orange; } /* Couleur à mi-chemin de l'animation */
+  100% { color: red; } /* Étape finale de l'animation, revenir à la couleur initiale */
+}
   /* Add a rule for smaller screens (up to 768px width) */
   @media screen and (max-width: 768px) {
     .grid {
@@ -242,8 +257,12 @@ button {
   display: flex;
   justify-content: center;
   align-items: center;
+  color: white;
+  font-weight: 700;
 }
 
+.btns {
+}
 button:hover {
   cursor: pointer;
   width: 240px;

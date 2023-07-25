@@ -54,7 +54,7 @@ export default {
 }
 
 .title {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: bold;
   text-align: center;
   margin-bottom: 10px;
