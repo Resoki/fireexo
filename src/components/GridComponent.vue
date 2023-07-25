@@ -31,7 +31,8 @@
       :title="$t('rules')" 
       :content="$t('rules_content')"
     />
-    <p v-if="probaProps">Chance of Propagation = <b>{{probabilityOfPropagation*100}}%</b></p>
+    <p class="chance-propa" v-if="probaProps">Chance of Propagation =      <img :src="generateLinkImgChance()" /> %
+    </p>
     <h3 v-if="isBurningGrid" class="burning-grid-text">
       {{ $t('isBurningGrid') }}
     </h3>
@@ -96,6 +97,11 @@ export default {
     getCssClassGrid(){
       if(this.isBurningGrid) return 'grid is-burning-grid'
       return 'grid';
+    },
+    generateLinkImgChance() {
+      if(this.probaProps === 'min') return 'images/25.png';
+      if(this.probaProps === 'moy') return 'images/50.png';
+      if(this.probaProps === 'max') return 'images/100.png';
     },
     resetGrid() {
         this.grid = Array.from({ length: 9 }, () =>
@@ -228,6 +234,12 @@ export default {
   border: 2px solid black;
   border-radius: 10px;
   background-color: #42b983 !important;
+}
+
+.chance-propa {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .burning-grid-text {
