@@ -101,6 +101,10 @@ export default {
     clearTimer() {
       clearInterval(this.timer);
     },
+    stopFirePropagation() {
+      this.clearTimer();
+      this.isFinish = true;
+    },
     msToS() {
       return parseInt(this.elapsedTime /1000);
     },
@@ -131,10 +135,10 @@ export default {
       this.countBurnedTree += 1
     },
     firePropagation() {
-       this.optionsBoard= [
+       this.optionsBoard = [
         { label:  this.$t('elapsedTime') , value: `${this.msToS() + this.$t('seconds')}` },
         { label: this.$t('burnedTree'), value: this.countBurnedTree },
-        { label: this.$t('burnedPercentage'), value: this.pourcentageBurned() }
+        { label: this.$t('burnedPercentage'), value: this.pourcentageBurned() + ' %' }
       ]
       if(!this.probaProps) {
         return this.message = this.$t('msgChoosePropagation') ;
@@ -186,31 +190,30 @@ export default {
 }
 </script>
 <style scoped>
-.grid {
-  display: grid;
-  grid-template-columns: repeat(9, 1fr);
-  margin: 10%;
-  margin-top: 4px;
-  border: 2px solid black;
-  border-radius: 8px;
-  background-color: #42b983 !important;
-}
-
-/* Ajoutez une règle pour rendre la grille responsive sur les écrans jusqu'à 768px de largeur */
-@media screen and (max-width: 768px) {
   .grid {
-    grid-template-columns: repeat(6, 1fr); /* Pour les écrans jusqu'à 768px de largeur, utilisez 6 colonnes */
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(30px, 1fr));
+    gap: 4px;
+    margin: 2%;
+    margin-top: 4px;
+    border: 2px solid black;
+    border-radius: 8px;
+    background-color: #42b983 !important;
   }
-}
 
-/* Ajoutez une règle pour les écrans plus petits (jusqu'à 480px de largeur) */
-@media screen and (max-width: 480px) {
-  .grid {
-    grid-template-columns: repeat(4, 1fr); /* Pour les écrans jusqu'à 480px de largeur, utilisez 3 colonnes */
+  /* Add a rule for smaller screens (up to 768px width) */
+  @media screen and (max-width: 768px) {
+    .grid {
+      grid-template-columns: repeat(auto-fit, minmax(30px, 1fr));
+    }
   }
-}
 
-
+  /* Add a rule for even smaller screens (up to 480px width) */
+  @media screen and (max-width: 480px) {
+    .grid {
+      grid-template-columns: repeat(auto-fit, minmax(30px, 1fr));
+    }
+  }
 
 .main {
   display: flex;

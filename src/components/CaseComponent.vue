@@ -37,6 +37,16 @@ export default {
   background: none !important;
 }
 
+  /* Add a rule for even smaller screens (up to 480px width) */
+  @media screen and (max-width: 480px) {
+    .img-case {
+      width: 30px !important;
+    }
+    .flex-size {
+      width: 25px;
+    }
+  }
+
 .is-ash {
   background: none;
 }
