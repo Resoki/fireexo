@@ -1,6 +1,7 @@
 <template>
     <div class="board">
       <div class="menu">
+        {{title}}
         <p v-for="(option, index) in options" :key="index" :value="option.value">{{ option.label }} {{option.value}}</p>
       </div>
     </div>
@@ -12,6 +13,7 @@ export default {
   name: 'BoardComponent',
   props: {
     options: Array,
+    title: String
   },
   methods: {
     closePopup() {
@@ -28,7 +30,7 @@ export default {
   border-radius: 5px;
   padding: 10px;
   margin-top: 10px !important;
-  width: 200px;
+  width: 225px;
   margin: 0 auto;
 }
 

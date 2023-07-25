@@ -1,11 +1,13 @@
 {
+    "forceFirePropagation": "Force Fire Propagation=> ",
     "msgChoosePropagation": "You must choose an option !",
     "chooseForceFire": "Choose Force Fire Propagation !",
-    "elapsedTime": "Elapsed Time:",
-    "burnedTree" : "Burned Trees:",
-    "burnedPercentage": "Burned Percentage:",
+    "elapsedTime": "Elapsed Time =>",
+    "burnedTree" : "Burned Trees =>",
+    "burnedPercentage": "Burned Percentage =>",
     "launch": "Start",
     "seconds": " seconds",
+    "isBurningGrid": "The forest burning...",
     "rules": "Rules",
     "rules_content": "The objective is to implement a forest fire propagation simulation.\nEstimated duration of the exercise: about 2/3 hours.\nThe forest is represented by a grid of dimensions h x l.\nThe temporal dimension is discretized, so the simulation progresses step by step.\nIn the initial state, one or more cells are on fire.\nIf a cell is on fire at time t, then at time t+1:\n- The fire extinguishes in that cell (the cell is filled with ashes and can no longer burn).\n- and there is a probability p that the fire spreads to each of the 4 adjacent cells.\nThe simulation stops when there are no more cells on fire.\nThe dimensions of the grid, the position of the cells initially on fire, as well as the probability of propagation, are parameters of the program stored in a configuration file (free format).\nWhat interests us is not just to see a simulation program with the best GUI, but above all to understand:\n- How you approach a problem\n- How you code\n- What your architectural choices are\n- How you present your work once completed."
 }

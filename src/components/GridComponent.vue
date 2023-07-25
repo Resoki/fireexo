@@ -1,7 +1,8 @@
 <template>
   <div>
     <p>{{message}}</p>
-   <SelectComponent 
+   <SelectComponent
+    v-if="!isBurningGrid" 
     :probaProps="probaProps" 
     :options="options" 
     :trad="tradChooseForce" 
@@ -11,14 +12,15 @@
       <img class="img-button" src="../../public/images/fireicon.png"/>
       {{ $t('launch') }}
     </button>
+    <button v-if="!isBurningGrid" class="btnrules" @click="seeRules">
+      <img class="img-button" src="../../public/images/book.png"/>
+      {{ $t('rules') }}
+    </button>
     <BoardComponent 
       v-if="isBurningGrid || isFinish" 
       :options="optionsBoard"
+      :title="$t('forceFirePropagation') + probaProps"
     />
-    <button class="btnrules" @click="seeRules">
-       <img class="img-button" src="../../public/images/book.png"/>
-       {{ $t('rules') }}
-    </button>
     <PopupComponent 
       v-if="isOpenPopupRules" 
       @closePopupEvent="closePopup" 
@@ -26,6 +28,7 @@
       :content="$t('rules_content')"
     />
     <p v-if="probaProps">Chance of Propagation = <b>{{probabilityOfPropagation*100}}%</b></p>
+    <h3 v-if="isBurningGrid">{{$t('isBurningGrid')}}</h3>
     <div class="grid">
       <div v-for="(row, rowIndex) in grid" :key="rowIndex">
         <CaseComponent 
@@ -68,7 +71,7 @@ export default {
       message: '',
       options: [
         { label: 'Minimum', value: 'min' },
-        { label: 'Moyen', value: 'moy' },
+        { label: 'Medium', value: 'moy' },
         { label: 'Maximum', value: 'max' }
       ],
       optionsBoard: [],
