@@ -17,9 +17,11 @@
       {{ $t('rules') }}
     </button>
     <BoardComponent 
-      v-if="isBurningGrid || isFinish" 
+       v-if="(isBurningGrid || isFinish) && isDisplayedBoard"
       :options="optionsBoard"
       :title="$t('forceFirePropagation') + probaProps"
+      @closePopupEvent="closePopupBoard"
+      :isDisplayedCross="!isBurningGrid ? true : false"
     />
     <PopupComponent 
       v-if="isOpenPopupRules" 
@@ -76,6 +78,7 @@ export default {
       ],
       optionsBoard: [],
       tradChooseForce: this.$t('msgChoosePropagation'),
+      isDisplayedBoard: false
     }
   },
   created() {
@@ -96,6 +99,10 @@ export default {
     },
     closePopup() {
       this.isOpenPopupRules = false;
+    },
+    closePopupBoard() {
+      this.isDisplayedBoard = false;
+      console.log('set false');
     },
     startTimer() {
       this.startTime = Date.now();
@@ -152,6 +159,7 @@ export default {
         this.startTimer(); // Démarrer le chronomètre lorsque la propagation commence
       }
       this.isBurningGrid = true;
+      this.isDisplayedBoard = true;
       // Utilisez requestAnimationFrame pour effectuer la propagation à chaque étape
       requestAnimationFrame(() => {
         let changedCells = [];
