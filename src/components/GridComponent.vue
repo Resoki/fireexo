@@ -1,56 +1,59 @@
 <template>
   <div>
-    <div class="">
     <p>{{message}}</p>
-    <select class="menu-select" v-model="probaProps" @change="switchValueSelect()">
-      <option disabled value="">Choose Force Fire Propagation</option>
-      <option value="min">Minimum</option>
-      <option value="moy">Moyen</option>
-      <option value="max">Maximum</option>
-    </select><br>
+   <SelectComponent 
+    :probaProps="probaProps" 
+    :options="options" 
+    :trad="tradChooseForce" 
+    @update:probaProps="switchValueSelect" 
+  />
     <button v-if="!isBurningGrid" @click="firePropagation()">
       <img class="img-button" src="../../public/images/fireicon.png"/>
-      Launch
+      {{ $t('launch') }}
     </button>
-     <div v-if="isBurningGrid || isFinish"  class="board">
-      <div class="menu">
-        <p>Temps écoulé : <b>{{ msToS() }} seconds</b></p>
-        <p>Arbres brûlés: <b>{{ countBurnedTree}}</b></p>
-        <p>Pourcentage brûlés: <b>{{ pourcentageBurned() }}%</b></p>
-      </div>
-    </div>
+    <BoardComponent 
+      v-if="isBurningGrid || isFinish" 
+      :options="optionsBoard"
+    />
     <button class="btnrules" @click="seeRules">
        <img class="img-button" src="../../public/images/book.png"/>
-       See rules
+       {{ $t('rules') }}
     </button>
-    <PopupRules v-if="isOpenPopupRules" @closePopupEvent="closePopup"/>
-    </div>
+    <PopupComponent 
+      v-if="isOpenPopupRules" 
+      @closePopupEvent="closePopup" 
+      :title="$t('rules')" 
+      :content="$t('rules_content')"
+    />
     <p v-if="probaProps">Chance of Propagation = <b>{{probabilityOfPropagation*100}}%</b></p>
     <div class="grid">
       <div v-for="(row, rowIndex) in grid" :key="rowIndex">
-          <CaseComponent 
-            v-for="(cell, colIndex) in row" 
-            :key="colIndex"
-            :image="generateImage(cell)" 
-            :isBurning="cell.isBurning" 
-            :isAsh="cell.isAsh" 
-          />
+        <CaseComponent 
+          v-for="(cell, colIndex) in row" 
+          :key="colIndex"
+          :image="generateImage(cell)" 
+          :isBurning="cell.isBurning" 
+          :isAsh="cell.isAsh" 
+        />
       </div>
     </div>
   </div>
 </template>
 
+
 <script>
 // Components
 import CaseComponent from '@/components/CaseComponent.vue';
-import PopupRules from '@/components/PopupRules.vue';
+import PopupComponent from '@/components/PopupComponent.vue';
+import SelectComponent from '@/components/SelectComponent.vue';
+import BoardComponent from '@/components/BoardComponent.vue'; 
 
 // Config
 import config from '../config.json';
 
 export default {
   name: 'GridComponent',
-  components: { CaseComponent, PopupRules },
+  components: { CaseComponent, PopupComponent, SelectComponent, BoardComponent },
   data() {
     return {
       grid: [],
@@ -62,20 +65,28 @@ export default {
       timer: 0,
       probabilityOfPropagation: config.probabilityOfPropagation,
       probaProps: '',
-      message: ''
+      message: '',
+      options: [
+        { label: 'Minimum', value: 'min' },
+        { label: 'Moyen', value: 'moy' },
+        { label: 'Maximum', value: 'max' }
+      ],
+      optionsBoard: [],
+      tradChooseForce: this.$t('msgChoosePropagation'),
     }
   },
   created() {
     this.generateInitialState();
-  },
+  }, 
   methods: {
-    switchValueSelect() {
+    switchValueSelect(proba) {
       if(this.message.length) {
         this.message = '';
       }
-      if(this.probaProps === "min") return this.probabilityOfPropagation = 0.25;
-      if(this.probaProps === "moy") return this.probabilityOfPropagation = 0.50;
-      if(this.probaProps === "max") return this.probabilityOfPropagation = 1;
+      this.probaProps = proba;
+      if(proba === "min") return this.probabilityOfPropagation = 0.25;
+      if(proba === "moy") return this.probabilityOfPropagation = 0.50;
+      if(proba === "max") return this.probabilityOfPropagation = 1;
     },
     seeRules(){
       this.isOpenPopupRules = !this.isOpenPopupRules;
@@ -120,8 +131,13 @@ export default {
       this.countBurnedTree += 1
     },
     firePropagation() {
+       this.optionsBoard= [
+        { label:  this.$t('elapsedTime') , value: `${this.msToS() + this.$t('seconds')}` },
+        { label: this.$t('burnedTree'), value: this.countBurnedTree },
+        { label: this.$t('burnedPercentage'), value: this.pourcentageBurned() }
+      ]
       if(!this.probaProps) {
-        return this.message = "You must choose an option";
+        return this.message = this.$t('msgChoosePropagation') ;
       }
       this.isFinish = false;
       if(!this.isBurningGrid) {
@@ -180,47 +196,10 @@ export default {
   background-color: #42b983 !important;
 }
 
-.board {
-  background-color: #f0f0f0;
-  border: 3px solid orange;
-  border-radius: 5px;
-  padding: 10px;
-  margin-top: 10px !important;
-  width: 200px;
-  margin: 0 auto;
-}
-
-select {
-  margin-right: 10px;
-  cursor: pointer;
-}
-
-option {
-  cursor: pointer;
-}
-
-.menu {
-  font-family: Arial, sans-serif;
-  font-size: 16px;
-}
-
 .main {
   display: flex;
   justify-content: center;
   align-items: center;
-}
-.menu p {
-  margin: 5px 0;
-}
-
-.menu b {
-  font-weight: bold;
-}
-
-.menu-select {
-  width: 200px;
-  height: 30px;
-  border-radius: 10px;
 }
 
 button {
