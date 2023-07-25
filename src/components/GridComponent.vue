@@ -35,6 +35,10 @@
     <h3 v-if="isBurningGrid" class="burning-grid-text">
       {{ $t('isBurningGrid') }}
     </h3>
+    <button class="reset-grid" v-if="isFinish" @click="resetGrid()">
+      <img class="img-button" src="../../public/images/reset.png"/>
+      Reset Grid
+    </button>
     <div :class="getCssClassGrid()">
       <div v-for="(row, rowIndex) in grid" :key="rowIndex">
         <CaseComponent 
@@ -92,6 +96,12 @@ export default {
     getCssClassGrid(){
       if(this.isBurningGrid) return 'grid is-burning-grid'
       return 'grid';
+    },
+    resetGrid() {
+        this.grid = Array.from({ length: 9 }, () =>
+        Array.from({ length: 9 }, () => ({ isBurning: false, isAsh: false }))
+      );
+      this.isFinish = false;
     },
     switchValueSelect(proba) {
       if(this.message.length) {
